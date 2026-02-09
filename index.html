@@ -1,11 +1,218 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Mi Primera Página</title>
+<meta charset="UTF-8">
+<title>Cuestionario Educativo</title>
+<style>
+  body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    font-size:18px;
+  }
+
+  .contenedor{
+    background:#fff;
+    padding:25px;
+    border-radius:10px;
+    width:90%;
+    max-width:1900px;
+    display:flex;
+    gap:20px;
+  }
+
+  .preguntas{
+    flex:3;
+    text-align:center;
+  }
+
+  .contador{
+    flex:1;
+    background:#eee;
+    padding:15px;
+    border-radius:10px;
+    text-align:left;
+  }
+
+  #pregunta{
+    font-size:26px;
+    margin-bottom:20px;
+    text-align: justify;
+  }
+
+  button{
+    padding:10px 20px;
+    margin:10px;
+    font-size:18px;
+    cursor:pointer;
+  }
+</style>
 </head>
 <body>
-    <h1>¡Hola Mundo!</h1>
-    <p>Este es mi primer programa en HTML.</p>
+
+<div class="contenedor">
+
+  <div class="preguntas">
+    <h2>Cuestionario</h2>
+    <div id="pregunta"></div>
+    <button id="btn1"></button>
+    <button id="btn2"></button>
+  </div>
+
+  <div class="contador">
+    <strong>Progreso</strong><br><br>
+    Pregunta: <span id="num">1</span><br><br>
+    ✔ Aciertos: <span id="buenas">0</span><br>
+    ✘ Incorrectos: <span id="malas">0</span>
+  </div>
+
+</div>
+
+<script>
+let preguntas = [
+
+{preg:"¿Toda la educación que el Estado imparta será gratuita;?",
+opciones:["articulo 2","art 3o"], correcta:1},
+
+
+{preg:"¿El Estado priorizará el interés superior de niñas, niños, adolescentes y jóvenes...?",
+ opciones:["Artuculo 3 LGD","articulo 3o"],    correcta:1 },
+
+{preg:"La presente Ley garantiza el derecho a la educación reconocido en el artículo 3o. de la Constitución Política de los Estados Unidos Mexicanos y en los Tratados Internacionales de los que el Estado Mexicano sea parte, cuyo ejercicio es necesario para alcanzar el bienestar de todas las personas. Sus disposiciones son de orden público, interés social y de observancia general en toda la República. Su objeto es regular la educación que imparta el Estado -Federación, Estados, Ciudad de México y municipios-, sus organismos descentralizados y los particulares con autorización o con reconocimiento de validez oficial de estudios, la cual se considera un servicio público y estará sujeta a la rectoría del Estado. La distribución de la función social educativa del Estado, se funda en la obligación de cada orden de gobierno de participar en el proceso educativo y de aplicar los recursos económicos que se asignan a esta materia por las autoridades competentes para cumplir los fines y criterios de la educación.",
+opciones:["articulo 2 LGE","art 1o LGE"], correcta:1},
+
+{preg:"El Estado priorizará el interés superior de niñas, niños, adolescentes y jóvenes en el ejercicio de su derecho a la educación. Para tal efecto, garantizará el desarrollo de programas y políticas públicas que hagan efectivo ese principio constitucional.",
+ opciones:["Artuculo 2 LGE","articulo 3o"],    correcta:0 },
+
+{preg:"El Estado fomentará la participación activa de los educandos, madres y padres de familia o tutores, maestras y maestros, los pueblos indígenas y afromexicanos, así como de los distintos actores involucrados en el proceso educativo y, en general, de todo el Sistema Educativo Nacional, para asegurar que éste extienda sus beneficios a todos los sectores sociales y regiones del país, a fin de contribuir al desarrollo económico, social y cultural de sus habitantes.",
+ opciones:["Artuculo 4 LGE","articulo 3o LGE"],    correcta:1 },
+
+{preg:"La aplicación y la vigilancia del cumplimiento de esta Ley corresponden a las autoridades educativas de la Federación, de los Estados, de la Ciudad de México y de los municipios, en los términos que este ordenamiento establece en el Título Séptimo del Federalismo Educativo. Para efectos de la presente Ley, se entenderá por: I. Autoridad educativa federal o Secretaría, a la Secretaría de Educación Pública de la Administración Pública Federal;",
+ opciones:["Artuculo 4 LGE","articulo 2o LGE"],    correcta:0 },
+
+
+{preg:"Toda persona tiene derecho a la educación, el cual es un medio para adquirir, actualizar, completar y ampliar sus conocimientos, capacidades, habilidades y aptitudes que le permitan alcanzar su desarrollo personal y profesional; como consecuencia de ello, contribuir a su bienestar, a la transformación y el mejoramiento de la sociedad de la que forma parte. Con el ejercicio de este derecho, inicia un proceso permanente centrado en el aprendizaje del educando, que contribuye a su desarrollo humano integral y a la transformación de la sociedad; es factor determinante para la adquisición de conocimientos significativos y la formación integral para la vida de las personas con un sentido de pertenencia social basado en el respeto de la diversidad, y es medio fundamental para la construcción de una sociedad equitativa y solidaria",
+opciones:["Artuculo 4 LGE","articulo 5o LGE"],    correcta:1 },
+
+
+{preg:"El Estado ofrecerá a las personas las mismas oportunidades de aprendizaje, así como de acceso, tránsito, permanencia, avance académico y, en su caso, egreso oportuno en el Sistema Educativo Nacional, con sólo satisfacer los requisitos que establezcan las instituciones educativas con base en las disposiciones aplicables. Toda persona gozará del derecho fundamental a la educación bajo el principio de la intangibilidad de la dignidad humana.",
+ opciones:["Artuculo 5 LGE","articulo 3o LGE"],    correcta:0 },
+
+{preg:"Todas las personas habitantes del país deben cursar la educación preescolar, la primaria, la secundaria y la media superior Es obligación de las mexicanas y los mexicanos hacer que sus hijas, hijos o pupilos menores de dieciocho años asistan a las escuelas, para recibir educación obligatoria, en los términos que establezca la ley, así como participar en su proceso educativo, al revisar su progreso y desempeño, velando siempre por su bienestar y desarrollo.",
+ opciones:["Artuculo 3 LGE","articulo 6o LGE"],    correcta:1 },
+
+{preg:"Además de impartir educación en los términos establecidos en la Constitución Política de los Estados Unidos Mexicanos, el Estado apoyará la investigación e innovación científica, humanística y tecnológica, y alentará el fortalecimiento y la difusión de la cultura nacional y universal.",
+ opciones:["Artuculo 6 LGE","articulo 5o LGE"],    correcta:0 },
+
+{preg:"Corresponde al Estado la rectoría de la educación; la impartida por éste, además de obligatoria, será: Universal, Inclusiva, laica, publica y gratuita ",
+ opciones:["Artuculo 7 LGE","articulo 5o LGE"],    correcta:0 },
+
+{preg:"El Estado está obligado a prestar servicios educativos con equidad y excelencia. Las medidas que adopte para tal efecto estarán dirigidas, de manera prioritaria, a quienes pertenezcan a grupos y regiones con mayor rezago educativo, dispersos o que enfrentan situaciones de vulnerabilidad por circunstancias específicas de carácter socioeconómico, físico, mental, de identidad cultural, origen étnico o nacional, situación migratoria o bien, relacionadas con estereotipos de  género, orientación sexual o prácticas culturales que constituyan barreras para acceder a servicios educativos.",
+ opciones:["Artuculo 7 LGE","articulo 8o LGE"],    correcta:1 },
+
+{preg:"Las autoridades educativas, en el ámbito de sus respectivas competencias y con la finalidad de establecer condiciones que permitan el ejercicio pleno del derecho a la educación de cada persona, Establecer políticas incluyentes, transversales y con perspectiva de género, para otorgar becasy demás apoyos económicos que prioricen a las y los educandos que enfrenten condiciones socioeconómicas que les impidan ejercer su derecho a la educación. Las autoridades educativas deberán implementar políticas educativas con enfoque diferenciado, con perspectiva de género y de derechos humanos para la prevención y atención de la deserción escolar de las mujeres, adolescentes, niñas y niños",
+ opciones:["Artuculo 9 LGE","articulo 5o LGE"],    correcta:0 },
+
+{preg:"Las autoridades educativas, en el ámbito de sus respectivas competencias y con la finalidad de establecer condiciones que permitan el ejercicio pleno del derecho a la educación de cada persona, favoreciendo la igualdad sustantiva entre mujeres y hombres y excelencia, realizarán entre otras, las siguientes acciones:III. Apoyar conforme a las disposiciones que, para tal efecto emitan las autoridades educativas, a estudiantes de educación media superior y de educación superior con alto rendimiento escolar para que puedan participar en programas de intercambio académico en el país o en el extranjero; IV. Celebrar convenios para que las instituciones que presten servicios de estancias infantiles faciliten la incorporación de las hijas o hijos de estudiantes que lo requieran, con el objeto de que no interrumpan o abandonen sus estudios; ",
+ opciones:["Artuculo 7 LGE","articulo 9o LGE"],    correcta:1 },
+
+{preg:"Las autoridades educativas, en el ámbito de sus respectivas competencias y con la finalidad de establecer condiciones que permitan el ejercicio pleno del derecho a la educación de cada persona, favoreciendo la igualdad sustantiva entre mujeres y hombres y excelencia, realizarán entre otras, las siguientes acciones: Las autoridades educativas, en el ámbito de sus respectivas competencias y con la finalidad de establecer condiciones que permitan el ejercicio pleno del derecho a la educación de cada persona, favoreciendo la igualdad sustantiva entre mujeres y hombres y excelencia, realizarán entre otras, las siguientes acciones:  Impulsar, en coordinación con las autoridades en la materia, programas de acceso gratuito a eventos culturales para educandos en vulnerabilidad social; ",
+ opciones:["Artuculo 7 LGE","articulo 9o LGE"],    correcta:1 },
+
+
+{preg:"Las autoridades educativas, en el ámbito de sus respectivas competencias y con la finalidad de establecer condiciones que permitan el ejercicio pleno del derecho a la educación de cada persona, favoreciendo la igualdad sustantiva entre mujeres y hombres y excelencia, realizarán entre otras, las siguientes acciones:Adoptar las medidas para que, con independencia de su nacionalidad o condición migratoria, las niñas, niños, adolescentes o jóvenes que utilicen los servicios educativos públicos, ejerzan los derechos y gocen de los beneficios con los que cuentan los educandos nacionales, instrumentando estrategias para facilitar su  incorporación y permanencia en el Sistema Educativo Nacional; LEY GENERAL DE EDUCACIÓN  CÁMARA DE DIPUTADOS DEL H. CONGRESO DE LA UNIÓN Secretaría General Secretaría de Servicios Parlamentarios Última Reforma DOF 15-01-2026 6 de 82 ",
+ opciones:["Artuculo 7 LGE","articulo 9o LGE"],    correcta:1 },
+
+{preg:"Las autoridades educativas, en el ámbito de sus respectivas competencias y con la finalidad de establecer condiciones que permitan el ejercicio pleno del derecho a la educación de cada persona, favoreciendo la igualdad sustantiva entre mujeres y hombres y excelencia, realizarán entre otras, las siguientes acciones: XI. Promover medidas para facilitar y garantizar la incorporación y permanencia a los servicios educativos públicos a las niñas, niños, adolescentes y jóvenes que hayan sido repatriados a nuestro país, regresen voluntariamente o enfrenten situaciones de desplazamiento o migración interna; XII. Proporcionar a los educandos los libros de texto gratuitos y materiales educativos impresos o en formatos digitales para la educación básica, garantizando su distribución, y XIII. Fomentar programas que coadyuven a la mejora de la educación para alcanzar su excelencia",
+ opciones:["Artuculo 7 LGE","articulo 9o LGE"],    correcta:1 },
+
+
+{preg:"Las autoridades educativas, en el ámbito de sus respectivas competencias y con la finalidad de establecer condiciones que permitan el ejercicio pleno del derecho a la educación de cada persona, favoreciendo la igualdad sustantiva entre mujeres y hombres y excelencia, realizarán entre otras, las siguientes acciones:VI. Celebrar convenios de colaboracióninterinstitucional con las autoridades de los tres órdenes de gobierno, a fin de impulsar acciones que mejoren las condiciones de vida de los educandos, con énfasis en las de carácter alimentario, preferentemente a partir de microempresas locales, en aquellas escuelas que lo necesiten, conforme a los índices de pobreza, marginación y condición alimentaria; VII. Fomentar programas de incentivos dirigidos a las maestras y los maestros que presten sus servicios en localidades aisladas, zonas urbanas marginadas y de alta conflictividad social, para fomentar el arraigo en sus comunidades y cumplir con el calendario escolar; ",
+
+ opciones:["Artuculo 9 LGE","articulo 5o LGE"],    correcta:0 },
+
+{preg:"Las autoridades educativas, en el ámbito de sus respectivas competencias y con la finalidad de establecer condiciones que permitan el ejercicio pleno del derecho a la educación de cada persona, favoreciendo la igualdad sustantiva entre mujeres y hombres y excelencia, realizarán entre otras, las siguientes acciones:V. Dar a conocer y, en su caso, fomentar diversas opciones educativas, como la educación abierta y a distancia, mediante el aprovechamiento de las plataformas digitales, la televisión educativa y las tecnologías de la información, comunicación, conocimiento y aprendizaje digital;; ",
+
+ opciones:["Artuculo 9 LGE","articulo 5o LGE"],    correcta:0 },
+
+{preg:"Las autoridades educativas, en el ámbito de sus respectivas competencias y con la finalidad de establecer condiciones que permitan el ejercicio pleno del derecho a la educación de cada persona, favoreciendo la igualdad sustantiva entre mujeres y hombres y excelencia, realizarán entre otras, las siguientesacciones:Establecer, de forma gradual y progresiva de acuerdo con la suficiencia presupuestal, escuelas con horario completo en educación básica, con jornadas de entre 6 y 8 horas diarias, para promover un mejor aprovechamiento del tiempo disponible, generar un mayor desempeño académico y desarrollo integral de los educandos;",
+
+ opciones:["Artuculo 7 LGE","articulo 9o LGE"],    correcta:1 },
+
+{preg:"Las autoridades educativas, en el ámbito de sus respectivas competencias y con la finalidad de establecer condiciones que permitan el ejercicio pleno del derecho a la educación de cada persona, favoreciendo la igualdad sustantiva entre mujeres y hombres y excelencia, realizarán entre otras, las siguientesacciones:IX. Facilitar el acceso a la educación básica y media superior, previo cumplimiento de los requisitos que para tal efecto se establezcan, aun cuando los solicitantes carezcan de documentos académicos o de identidad; esta obligación se tendrá por satisfecha con el ofrecimiento de servicios educativos en los términos de este Capítulo y de conformidad con los lineamientos que emita la Secretaría. Las autoridades educativas ofrecerán opciones que faciliten la obtención de los documentos académicos y celebrarán convenios de colaboración con las instituciones competentes para la obtención de los documentos de identidad, asimismo, en el caso de la educación básica y media superior, se les ubicará en el nivel y grado que corresponda, conforme a la edad, el desarrollo cognitivo, la madurez emocional y, en su ca",
+
+ opciones:["Artuculo 7 LGE","articulo 9o LGE"],    correcta:1 },
+
+{preg:"",
+
+ opciones:["Artuculo 7 LGE","articulo 5o LGE"],    correcta:0 },
+
+
+{preg:"",
+
+ opciones:["Artuculo 7 LGE","articulo 5o LGE"],    correcta:0 },
+  // 👉 aquí puedes pegar TODAS las demás
+];
+
+// 🔀 MEZCLAR PREGUNTAS (aleatorio)
+function mezclarPreguntas(array){
+  for(let i = array.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+mezclarPreguntas(preguntas);
+
+let indice = 0;
+let buenas = 0;
+let malas = 0;
+
+const preguntaDiv = document.getElementById("pregunta");
+const btn1 = document.getElementById("btn1");
+const btn2 = document.getElementById("btn2");
+
+const buenasEl = document.getElementById("buenas");
+const malasEl = document.getElementById("malas");
+const numEl = document.getElementById("num");
+
+function mostrarPregunta(){
+  const q = preguntas[indice];
+  preguntaDiv.innerHTML = `<strong>Pregunta ${indice+1}:</strong><br><br>${q.preg}`;
+  btn1.textContent = q.opciones[0];
+  btn2.textContent = q.opciones[1];
+  numEl.textContent = indice + 1;
+}
+
+function responder(op){
+  if(op === preguntas[indice].correcta){
+    buenas++;
+    buenasEl.textContent = buenas;
+  }else{
+    malas++;
+    malasEl.textContent = malas;
+  }
+
+  indice++;
+
+  if(indice < preguntas.length){
+    mostrarPregunta();
+  }else{
+    preguntaDiv.innerHTML = "✅ Cuestionario terminado";
+    btn1.style.display = "none";
+    btn2.style.display = "none";
+  }
+}
+
+btn1.onclick = ()=>responder(0);
+btn2.onclick = ()=>responder(1);
+
+mostrarPregunta();
+</script>
+
 </body>
 </html>
+
